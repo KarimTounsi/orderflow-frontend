@@ -2,9 +2,8 @@
 
 
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import { ordersApi } from "@/lib/api/orders";
-import { getSessionId } from "@/lib/session";
+import { useSessionId } from "@/lib/session";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -21,11 +20,7 @@ const STATUS_COLORS: Record<OrderStatus, string> = {
 };
 
 export default function OrdersPage() {
-  const [sessionId, setSessionId] = useState("");
-
-  useEffect(() => {
-    setSessionId(getSessionId());
-  }, []);
+  const sessionId = useSessionId();
 
   const { data: orders, isLoading } = useQuery({
     queryKey: ["orders", sessionId],

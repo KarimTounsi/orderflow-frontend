@@ -1,4 +1,6 @@
 
+import { useSyncExternalStore } from "react";
+
 const SESSION_KEY = "orderflow_session_id";
 
 export function getSessionId(): string {
@@ -10,4 +12,12 @@ export function getSessionId(): string {
     localStorage.setItem(SESSION_KEY, sessionId);
   }
   return sessionId;
+}
+
+export function useSessionId(): string {
+  return useSyncExternalStore(
+    () => () => {},        // subscribe: sessionId nie zmienia się w trakcie życia strony
+    () => getSessionId(),  // snapshot klienta
+    () => "",              // snapshot serwera (SSR)
+  );
 }

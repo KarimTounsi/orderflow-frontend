@@ -4,7 +4,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { ordersApi } from "@/lib/api/orders";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";

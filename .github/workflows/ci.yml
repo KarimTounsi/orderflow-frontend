@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+# pnpm dostarczany przez corepack (wbudowany w Node), bez akcji third-party - dzieki temu
+# nie ma zadnej akcji na Node 20, wiec brak ostrzezen o wygaszeniu Node 20.
+# checkout@v5 i setup-node@v5 sa natywnie na Node 24.
+# WAZNE: corepack enable MUSI byc przed setup-node@v5 - setup-node wykrywa pole packageManager
+# i wlacza cache pnpm juz w swoim kroku, wiec pnpm musi byc wtedy dostepny.
+env:
+  COREPACK_ENABLE_DOWNLOAD_PROMPT: 0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Enable pnpm via corepack
+        run: corepack enable
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build
+        run: pnpm build

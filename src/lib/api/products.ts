@@ -1,6 +1,6 @@
 
 import { productClient } from "./client";
-import type { Page, Product, CartItem, Cart } from "@/types";
+import type { Page, Product, Cart } from "@/types";
 
 export const productsApi = {
   getAll: (params?: { page?: number; size?: number; category?: string; search?: string }) =>
