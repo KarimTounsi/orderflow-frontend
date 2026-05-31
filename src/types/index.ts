@@ -12,22 +12,27 @@ export interface Product {
 
 export interface Page<T> {
   content: T[];
-  totalElements: number;
-  totalPages: number;
-  number: number;
-  size: number;
+  page: {
+    size: number;
+    number: number;
+    totalElements: number;
+    totalPages: number;
+  };
 }
 
 export interface CartItem {
   productId: string;
   productName: string;
+  imageUrl?: string;
+  price: number;
   quantity: number;
-  unitPrice: number;
+  lineTotal: number;
 }
 
 export interface Cart {
   sessionId: string;
   items: CartItem[];
+  itemCount: number;
   total: number;
 }
 
@@ -66,7 +71,6 @@ export interface Order {
 export type OrderStatus =
   | "PENDING"
   | "CONFIRMED"
-  | "PROCESSING"
   | "SHIPPED"
   | "DELIVERED"
   | "CANCELLED";

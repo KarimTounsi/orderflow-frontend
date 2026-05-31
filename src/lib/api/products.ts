@@ -4,20 +4,20 @@ import type { Page, Product, CartItem, Cart } from "@/types";
 
 export const productsApi = {
   getAll: (params?: { page?: number; size?: number; category?: string; search?: string }) =>
-    productClient.get<Page<Product>>("/api/products", { params }).then((r) => r.data),
+    productClient.get<Page<Product>>("/api/v1/products", { params }).then((r) => r.data),
 
   getById: (id: string) =>
-    productClient.get<Product>(`/api/products/${id}`).then((r) => r.data),
+    productClient.get<Product>(`/api/v1/products/${id}`).then((r) => r.data),
 
   getCart: (sessionId: string) =>
-    productClient.get<Cart>(`/api/cart/${sessionId}`).then((r) => r.data),
+    productClient.get<Cart>("/api/v1/cart", { headers: { "X-Session-Id": sessionId } }).then((r) => r.data),
 
-  addToCart: (sessionId: string, item: Omit<CartItem, "productName">) =>
-    productClient.post<Cart>(`/api/cart/${sessionId}`, item).then((r) => r.data),
+  addToCart: (sessionId: string, item: { productId: string; quantity: number }) =>
+    productClient.post<Cart>("/api/v1/cart/items", item, { headers: { "X-Session-Id": sessionId } }).then((r) => r.data),
 
   removeFromCart: (sessionId: string, productId: string) =>
-    productClient.delete<Cart>(`/api/cart/${sessionId}/items/${productId}`).then((r) => r.data),
+    productClient.delete<Cart>(`/api/v1/cart/items/${productId}`, { headers: { "X-Session-Id": sessionId } }).then((r) => r.data),
 
   clearCart: (sessionId: string) =>
-    productClient.delete(`/api/cart/${sessionId}`).then((r) => r.data),
+    productClient.delete("/api/v1/cart", { headers: { "X-Session-Id": sessionId } }).then((r) => r.data),
 };
