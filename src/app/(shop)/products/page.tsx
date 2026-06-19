@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { productsApi } from "@/lib/api/products";
+import { AiAssistant } from "@/components/search/AiAssistant";
 import { ProductCard } from "@/components/products/ProductCard";
 import { ProductSkeleton } from "@/components/products/ProductSkeleton";
 import { Input } from "@/components/ui/input";
@@ -35,6 +36,8 @@ export default function ProductsPage() {
           {data?.page.totalElements ?? 0} products available
         </p>
       </div>
+
+      <AiAssistant />
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">

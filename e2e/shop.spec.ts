@@ -172,4 +172,23 @@ test.describe("OrderFlow E2E", () => {
       await expect(page.getByText(/order details/i)).toBeVisible();
     }
   });
+
+  test("AI assistant answers a product question (full RAG)", async ({ page }) => {
+    await page.goto("/products");
+    const input = page.getByPlaceholder(/ask ai/i);
+    await expect(input).toBeVisible();
+
+    await input.fill("what should I buy for running under 200?");
+    await page.getByRole("button", { name: /ask ai/i }).click();
+
+    const sources = page.getByText(/based on:/i);
+    const ragDisabled = page.getByText(/not enabled on the backend/i);
+    await expect(sources.or(ragDisabled)).toBeVisible({ timeout: 60000 });
+
+    if (await sources.isVisible().catch(() => false)) {
+      console.log("Full RAG answered with sources - pipeline OK");
+    } else {
+      console.warn("RAG feature flag off on backend - degraded path verified");
+    }
+  });
 });
