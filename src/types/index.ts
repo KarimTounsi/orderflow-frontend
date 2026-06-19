@@ -74,3 +74,20 @@ export type OrderStatus =
   | "SHIPPED"
   | "DELIVERED"
   | "CANCELLED";
+
+export interface RagSource {
+  productId: string;
+  name: string;
+  score: number;
+}
+
+export interface RagAnswer {
+  answer: string;
+  sources: RagSource[];
+}
+
+// Wynik GET /api/v1/search/semantic - produkt + trafnosc (rekord SemanticSearchResult)
+export interface SemanticSearchResult {
+  product: Product;
+  score: number;
+}

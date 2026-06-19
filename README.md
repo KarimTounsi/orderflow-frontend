@@ -2,6 +2,19 @@
 
 Next.js 16 e-commerce frontend for the OrderFlow microservices platform.
 
+**Live demo:** [orderflow-frontend-five.vercel.app](https://orderflow-frontend-five.vercel.app)
+
+## Features
+
+- **Product catalog** - browse, search, and filter by category (server data cached via React Query)
+- **Shopping cart & checkout** - session-based cart, place orders against the order-service
+- **Order tracking** - follow an order's status as it moves through the backend saga
+- **AI shopping assistant (RAG)** - ask a natural-language question (e.g. *"what should I get for a home gym?"*)
+  and get a grounded answer together with the **source products and similarity scores** it was based on.
+  The heavy lifting (local ONNX embeddings, pgvector retrieval, LLM generation) runs in the product-service;
+  the UI just calls `/search/ask` and renders the answer plus clickable sources. It degrades gracefully -
+  if the LLM is disabled the assistant shows a neutral notice and the rest of the shop keeps working.
+
 ## Tech Stack
 
 - **Next.js 16** - App Router, Server Components, Turbopack
@@ -35,6 +48,17 @@ NEXT_PUBLIC_PRODUCT_API_URL=http://localhost:8081
 NEXT_PUBLIC_ORDER_API_URL=http://localhost:8082
 ```
 
+In **production** the HTTPS frontend must reach an HTTP backend without mixed-content, so requests
+are proxied server-side (`next.config.ts` rewrites). The public vars point at same-origin proxy
+paths and the real backend URLs stay server-only:
+
+```env
+NEXT_PUBLIC_PRODUCT_API_URL=/proxy/product
+NEXT_PUBLIC_ORDER_API_URL=/proxy/order
+PRODUCT_BACKEND_URL=http://<backend-host>:8081
+ORDER_BACKEND_URL=http://<backend-host>:8082
+```
+
 ## Backend Services
 
 This frontend requires the following services running:
@@ -65,11 +89,12 @@ src/
 │   ├── ui/               # shadcn/ui primitives
 │   ├── layout/           # Navbar, Footer
 │   ├── products/         # Product cards, grid, filters
+│   ├── search/           # AI shopping assistant (RAG) - question box, answer, sources
 │   ├── cart/             # Cart drawer, items
 │   ├── checkout/         # Checkout form
 │   └── orders/           # Order status, tracking
 ├── lib/
-│   ├── api/              # API clients (product, order)
+│   ├── api/              # API clients (product, order, search/RAG)
 │   └── session.ts        # Session ID management
 ├── hooks/                # Custom React hooks
 └── types/                # TypeScript interfaces
@@ -77,4 +102,4 @@ src/
 
 ## Deployment
 
-Deployed on [Vercel](https://vercel.com). Set environment variables in the Vercel dashboard pointing to production backend URLs.
+Deployed on [Vercel](https://vercel.com) - live at [orderflow-frontend-five.vercel.app](https://orderflow-frontend-five.vercel.app). Set the environment variables above in the Vercel dashboard. The `next.config.ts` rewrites proxy `/proxy/*` to the backend server-side, so the HTTPS frontend reaches the HTTP backend without mixed-content or CORS.
