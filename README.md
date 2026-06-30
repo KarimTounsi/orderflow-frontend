@@ -17,6 +17,14 @@ Next.js 16 e-commerce frontend for the OrderFlow microservices platform.
   the UI just calls `/search/ask` and renders the answer plus clickable sources. It degrades gracefully -
   if the LLM is disabled the assistant shows a neutral notice and the rest of the shop keeps working.
 
+## Screenshots
+
+| Catalog | AI shopping assistant (RAG) |
+|---|---|
+| ![Product catalog](docs/screenshots/home.png) | ![AI shopping assistant with semantic search and cited sources](docs/screenshots/ai-assistant.png) |
+| **Cart** | **Order tracking** |
+| ![Shopping cart](docs/screenshots/cart.png) | ![Order confirmation and tracking](docs/screenshots/order.png) |
+
 ## Tech Stack
 
 - **Next.js 16** - App Router, Server Components, Turbopack
