@@ -4,6 +4,8 @@ Next.js 16 e-commerce frontend for the OrderFlow microservices platform.
 
 **Live demo:** [orderflow-frontend-five.vercel.app](https://orderflow-frontend-five.vercel.app)
 
+**Backend repository:** [KarimTounsi/orderflow](https://github.com/KarimTounsi/orderflow)
+
 ## Features
 
 - **Product catalog** - browse, search, and filter by category (server data cached via React Query)
@@ -103,3 +105,13 @@ src/
 ## Deployment
 
 Deployed on [Vercel](https://vercel.com) - live at [orderflow-frontend-five.vercel.app](https://orderflow-frontend-five.vercel.app). Set the environment variables above in the Vercel dashboard. The `next.config.ts` rewrites proxy `/proxy/*` to the backend server-side, so the HTTPS frontend reaches the HTTP backend without mixed-content or CORS.
+
+## Testing
+
+End-to-end tests live in `e2e/` and run with Playwright:
+
+```bash
+pnpm exec playwright test
+```
+
+These are **smoke tests** - they drive the main user flows (catalog, cart, checkout, AI assistant) and stay tolerant when the backend is unavailable, so they run quickly without the full stack. A stricter checkout-flow test that requires a live backend is a natural next step.
