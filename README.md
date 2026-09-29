@@ -2,7 +2,7 @@
 
 Next.js 16 e-commerce frontend for the OrderFlow microservices platform.
 
-**Live demo:** [orderflow-frontend-five.vercel.app](https://orderflow-frontend-five.vercel.app)
+> **Note:** the live demo is offline - the backend (AWS EC2) has been taken down to avoid cloud costs. Run the backend locally via Docker Compose and start this app with `npm run dev`.
 
 **Backend repository:** [KarimTounsi/orderflow](https://github.com/KarimTounsi/orderflow)
 
@@ -112,7 +112,7 @@ src/
 
 ## Deployment
 
-Deployed on [Vercel](https://vercel.com) - live at [orderflow-frontend-five.vercel.app](https://orderflow-frontend-five.vercel.app). Set the environment variables above in the Vercel dashboard. The `next.config.ts` rewrites proxy `/proxy/*` to the backend server-side, so the HTTPS frontend reaches the HTTP backend without mixed-content or CORS.
+Previously deployed on [Vercel](https://vercel.com) against a backend on AWS EC2 (now taken down to avoid cloud costs). To redeploy, set the environment variables above in the Vercel dashboard. The `next.config.ts` rewrites proxy `/proxy/*` to the backend server-side, so the HTTPS frontend reaches the HTTP backend without mixed-content or CORS.
 
 ## Testing
 
